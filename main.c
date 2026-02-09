@@ -30,6 +30,8 @@ void pool_free_all(Pool* p); // This procedure will be covered later in this art
 
 void pool_init(Pool* p, void* backing_buffer, size_t backing_buffer_length,
 	size_t chunk_size, size_t chunk_alignment) {
+
+	// Allign chunk size with required alignment 
 	if ((chunk_size % chunk_alignment != 0)) {
 		chunk_size += chunk_alignment - (chunk_size % chunk_alignment);
 	}
@@ -81,7 +83,7 @@ void* pool_alloc(size_t size) {
 void pool_free(void* ptr) {
 	if (!ptr) return;
 
-	// ќпредел€ем, какому пулу принадлежит указатель
+	
 	Pool* p = NULL;
 	uintptr_t addr = (uintptr_t)ptr;
 
@@ -92,11 +94,11 @@ void pool_free(void* ptr) {
 		p = &pool_180;
 	}
 
-	if (p) {
-		Pool_Free_Node* node = (Pool_Free_Node*)ptr;
-		node->next = p->head;
-		p->head = node;
-	}
+	// Turn new chunk into new haed
+	Pool_Free_Node* node = (Pool_Free_Node*)ptr;
+	node->next = p->head;
+	p->head = node;
+	
 }
 
 void pool_free_all(Pool* p) {
@@ -123,4 +125,5 @@ int main() {
 	printf("Allocated at: %p\n", a);
 
 	return 0;
+
 }	
