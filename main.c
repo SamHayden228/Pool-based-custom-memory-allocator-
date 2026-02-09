@@ -120,10 +120,11 @@ int main() {
 	pool_init(&pool_15, pool_buffer_15, POOL_SIZE, 15,8);
 	pool_init(&pool_180, pool_buffer_180, POOL_SIZE, 180,8);
 	void* a = pool_alloc(4);
-	printf("Allocated at: %p\n", a);
+	
 	pool_free(a);
-	printf("Allocated at: %p\n", a);
+	
 
 	return 0;
 
 }	
+
